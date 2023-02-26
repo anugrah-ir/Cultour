@@ -1,0 +1,19 @@
+{
+  "name": "cultour",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anugrah-IR/Cultour.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Anugrah-IR/Cultour/issues"
+  },
+  "homepage": "https://github.com/Anugrah-IR/Cultour#readme"
+}
