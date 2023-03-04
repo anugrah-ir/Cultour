@@ -20,10 +20,10 @@ module.exports = {
                 "message": "Register Successfull"
             });
         }
-        catch {
+        catch (err) {
             res.status(500).send({
                 "status": "error",
-                "message": "Internal Server Error"
+                "message": err.message
             });
         }
     },
@@ -33,24 +33,26 @@ module.exports = {
             const user = await users.findOne({ where: { email : req.body.email } });
 
             if (await bcrypt.compare(req.body.password, user.password)) {
-                const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
+                const accessToken = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET)
                 res.status(200).send({
                     "status": "success",
                     "message": "Login successfull",
-                    "accessToken": accessToken
+                    "data": {
+                        "accessToken": accessToken
+                    }
                 });
             }
             else {
-                res.status(401).send({
+                res.status(400).send({
                     "status": "error",
-                    "Message": "Wrong Password"
+                    "Message": "Invalid Credentials"
                 });
             }
         }
-        catch {
+        catch (err) {
             res.status(500).send({
                 "status": "error",
-                "message": "Internal Server Error"
+                "message": err.message
             });
         }
     },
@@ -73,10 +75,10 @@ module.exports = {
                 });
             }
         }
-        catch {
+        catch (err) {
             res.status(500).send({
                 "status": "error",
-                "message": "Internal Server Error"
+                "message": err.message
             });
         }
     }
