@@ -2,7 +2,7 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const users = require('../models/user');
-
+const { success, error } = require('../utils/response');
 
 module.exports = {
 
@@ -14,17 +14,13 @@ module.exports = {
                 email: req.body.email,
                 password: hashedPassword
             });
+
+            const token = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET);
     
-            res.status(201).send({
-                "status": "success",
-                "message": "Register Successfull"
-            });
+            return success(res, 200, true, "Register Successful", token);
         }
         catch (err) {
-            res.status(500).send({
-                "status": "error",
-                "message": err.message
-            });
+            return error(res, 500, false, err);
         }
     },
     
@@ -33,27 +29,16 @@ module.exports = {
             const user = await users.findOne({ where: { email : req.body.email } });
 
             if (await bcrypt.compare(req.body.password, user.password)) {
-                const accessToken = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET)
-                res.status(200).send({
-                    "status": "success",
-                    "message": "Login successfull",
-                    "data": {
-                        "accessToken": accessToken
-                    }
-                });
+                const token = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET)
+                
+                return success(res, 200, true, "Login successful", token);
             }
             else {
-                res.status(400).send({
-                    "status": "error",
-                    "Message": "Invalid Credentials"
-                });
+                return error(res, 400, false, "Invalid email or password");
             }
         }
         catch (err) {
-            res.status(500).send({
-                "status": "error",
-                "message": err.message
-            });
+            return error(res, 500, false, err);
         }
     },
     
@@ -63,23 +48,14 @@ module.exports = {
             if (await bcrypt.compare(req.body.oldPassword, user.password)) {
                 await user.update({ password: req.body.newPassword })
     
-                res.status(200).send({
-                    "status": "success",
-                    "message": "Password Successfully Changed"
-                });
+                return success(res, send, true, "Password has been updated");
             }
             else {
-                res.status(401).send({
-                    "status": "error",
-                    "Message": "Wrong Password"
-                });
+                return error(res, 400, false, "Invalid email or password");
             }
         }
         catch (err) {
-            res.status(500).send({
-                "status": "error",
-                "message": err.message
-            });
+            return error(res, 500, false, err);
         }
     }
 
