@@ -8,9 +8,9 @@ app.use(express.json());
 
 // Synchronize user databases
 // Replace with 'sequelize.sync({ force: true })' to delete all existing users
-sequelize.sync({ force: true });
+sequelize.sync();
 
 // API route
-app.use('/api', routes);
+app.use('/', routes);
 
 app.listen(port);

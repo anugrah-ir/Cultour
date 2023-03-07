@@ -2,17 +2,11 @@ const express = require('express');
 const auth = express.Router();
 const {
     register,
-    login,
-    resetPassword
+    login
 } = require('../controllers/auth');
 
-// register route
-auth.post('/register', register);
-// login
-auth.post('/login', login);
-// reset password route
-auth.post('/reset-password', resetPassword);
+auth
+    .post('/register', register)
+    .post('/login', login);
 
-module.exports = {
-    auth
-};
+module.exports = auth;
