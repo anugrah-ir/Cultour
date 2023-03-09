@@ -15,7 +15,23 @@ const users = sequelize.define("users", {
     password: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    verified: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    },
+    subscribed: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    },
+    admin: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
     }
+        
 });
 
 module.exports = users;
