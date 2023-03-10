@@ -29,9 +29,9 @@ module.exports = {
                             username: req.body.username,
                             email: req.body.email,
                             password: hashedPassword,
-                            verified: false,
-                            subscribed: false, 
-                            admin: false
+                            isVerified: false,
+                            isSubscribed: false, 
+                            isAdmin: false
                         });
     
                         const token = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET);
@@ -82,4 +82,4 @@ module.exports = {
         }
     }
 
-}
+};

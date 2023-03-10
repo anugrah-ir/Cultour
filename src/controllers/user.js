@@ -25,7 +25,7 @@ module.exports = {
 
                     if (schema.validate(req.body.password) === true) {
                         const newPassword = await bcrypt.hash(req.body.newPassword, 10);
-                        user.update({ password: newPassword });
+                        await user.update({ password: newPassword });
                         const token = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET);
     
                         return success(res, 200, true, "Password has been updated", token);
@@ -75,4 +75,4 @@ module.exports = {
         }
     }
 
-}
+};

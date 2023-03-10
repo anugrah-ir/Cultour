@@ -3,6 +3,7 @@ const DataTypes = require('sequelize');
 
 // Define a table for 'user'
 const users = sequelize.define("users", {
+    
     username: {
         type: DataTypes.STRING,
         allowNull: false
@@ -16,17 +17,17 @@ const users = sequelize.define("users", {
         type: DataTypes.STRING,
         allowNull: false
     },
-    verified: {
+    isVerified: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false
     },
-    subscribed: {
+    isSubscribed: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false
     },
-    admin: {
+    isAdmin: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false
