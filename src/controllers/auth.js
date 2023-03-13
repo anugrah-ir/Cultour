@@ -10,75 +10,55 @@ module.exports = {
 
     register: async (req,res) => {
         try {
-            const user = await users.findOne({ where: { email : req.body.email } });
+            if (emailValidator.validate(req.body.email) === false ) throw "Invalid email address";
 
-            if (user === null) {
-                if (emailValidator.validate(req.body.email) === true) {
-                    const schema = new passwordValidator();
-                    schema
-                        .is().min(8)
-                        .has().lowercase()
-                        .has().uppercase()
-                        .has().digits()
-                        .has().symbols()
-                        .has().not().spaces();
-                    
-                    if (schema.validate(req.body.password) === true) {
-                        const hashedPassword = await bcrypt.hash(req.body.password, 10);
-                        const user = await users.create({
-                            username: req.body.username,
-                            email: req.body.email,
-                            password: hashedPassword,
-                            isVerified: false,
-                            isSubscribed: false, 
-                            isAdmin: false
-                        });
-    
-                        const token = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET);
-        
-                        return success(res, 200, true, "Register Successful", token);
-                    }
-                    else {
-                        return error(res, 400, false, "Password must have at least 8 characters with lowercase, uppercase, number and symbol");
-                    }
-                }
-                else {
-                    return error(res, 400, false, "Invalid email address");
-                }
-            }
-            else {
-                return error(res, 400, false, "The email is already registered");
-            }
+            const user = await users.findOne({ where: { email : req.body.email } });
+            if (user !== null) throw "The email is already registered";
+            
+            const password = new passwordValidator();
+            password
+                .is().min(8)
+                .has().lowercase()
+                .has().uppercase()
+                .has().digits()
+                .has().symbols()
+                .has().not().spaces();     
+            if (password.validate(req.body.password) === false) throw "Password must have at least 8 characters with lowercase, uppercase, numbers, symbols, and no spaces";
+            
+            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+            const newUser = await users.create({
+                username: req.body.username,
+                email: req.body.email,
+                password: hashedPassword,
+                isVerified: false,
+                isSubscribed: false, 
+                isAdmin: false
+            });
+
+            const token = jwt.sign({newUser}, process.env.ACCESS_TOKEN_SECRET);
+
+            return success(res, 200, true, "Register Successful", token);
         }
         catch (err) {
-            return error(res, 500, false, err);
+            return error(res, 400, false, err);
         }
     },
     
     login: async (req,res) => {
         try {
-            if (emailValidator.validate(req.body.email) === true) {
-                const user = await users.findOne({ where: { email : req.body.email } });
-                if (user !== null) {
-                    if (await bcrypt.compare(req.body.password, user.password)) {
-                        const token = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET);
-                    
-                        return success(res, 200, true, "Login successful", token);
-                    }
-                    else {
-                        return error(res, 400, false, "Invalid email or password");
-                    }
-                }
-                else {
-                    return error(res, 400, false, "The email is not registered");
-                }
-            }
-            else {
-                return error(res, 400, false, "Invalid email address");
-            }
+            if (emailValidator.validate(req.body.email) === false) throw "Invalid email address";
+
+            const user = await users.findOne({ where: { email : req.body.email } });
+            if (user === null) throw "The email is not registered";
+
+            if (await bcrypt.compare(req.body.password, user.password) === false) throw "Invalid email or password";
+
+            const token = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET);
+
+            return success(res, 200, true, "Login successful", token);
         }
         catch (err) {
-            return error(res, 500, false, err);
+            return error(res, 400, false, err);
         }
     }
 
