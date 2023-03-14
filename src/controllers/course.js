@@ -68,7 +68,7 @@ module.exports = {
             return success(res, 200, true, "Course has been deleted");
         }
         catch (err) {
-            return error(res, 500, false, err);
+            return error(res, 400, false, err);
         }
     }
 
