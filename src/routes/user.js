@@ -1,12 +1,18 @@
 const express = require('express');
 const user = express.Router();
 const {
-    updatePassword,
-    deleteUser
+    getUser,
+    getAllUser,
+    updateUser,
+    deleteUser,
+    deleteAllUser
 } = require('../controllers/user');
 
 user
-    .put('/password/update', updatePassword)
-    .delete('/delete', deleteUser);
+    .get('/', getUser)
+    .get('/all', getAllUser)
+    .put('/update', updateUser)
+    .delete('/delete', deleteUser)
+    .delete('/all/delete', deleteAllUser);
 
 module.exports = user;

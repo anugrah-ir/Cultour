@@ -8,14 +8,38 @@ const { success, error } = require('../utils/response');
 
 module.exports = {
 
-    updatePassword: async (req,res) => {
+    getUser: async (req, res) => {
         try {
-            if (emailValidator.validate(req.body.email) === false ) throw "Invalid email address";
-
             const user = await users.findOne({ where: { email : req.body.email } });
-            if (user === null) throw "The email is not registered";
+            if (user === null) throw "User not found";
+
+            return success(res, 200, true, "User found successfully", user);
+        }
+        catch (err) {
+            return error(res, 400, false, err);
+        }
+    },
+
+    getAllUser: async (req, res) => {
+        try {
+            const user = await users.findAll();
+            if (user === null) throw "No users found";
+
+            return success(res, 200, true, "Users found successfully", user);
+        }
+        catch (err) {
+            return error(res, 400, false, err);
+        }
+    },
+
+    updateUser: async (req,res) => {
+        try {
+            const user = await users.findOne({ where: { email : req.body.email } });
+            if (user === null) throw "Invalid email or password";
             
-            if (await bcrypt.compare(req.body.password, user.password) === false) throw "Old password is wrong";
+            if (await bcrypt.compare(req.body.password, user.password) === false) throw "Invalid email or password";
+
+            if (emailValidator.validate(req.body.email) === false ) throw "New email address is invalid";
 
             const password = new passwordValidator();
             password
@@ -28,7 +52,11 @@ module.exports = {
             if (password.validate(req.body.newPassword) === false) throw "Password must have at least 8 characters with lowercase, uppercase, numbers, symbols, and no spaces";
             
             const hashedPassword = await bcrypt.hash(req.body.newPassword, 10);
-            await user.update({ password: hashedPassword });
+            await user.update({
+                username: req.body.newUsername,
+                email: req.body.newEmail,
+                password: hashedPassword
+            });
 
             const token = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET);
 
@@ -51,6 +79,17 @@ module.exports = {
             await user.destroy();
                     
             return success(res, 200, true, "User has been deleted");
+        }
+        catch (err) {
+            return error(res, 400, false, err);
+        }
+    },
+
+    deleteAllUser: async (req, res) => {
+        try {
+            await users.sync({ force: true });
+
+            return success(res, 200, true, "All user has been deleted");
         }
         catch (err) {
             return error(res, 400, false, err);
