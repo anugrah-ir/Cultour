@@ -11,25 +11,25 @@ const courses = sequelize.define("courses", {
     category: {
         type: DataTypes.STRING,
     },
-    province: {
-        type: DataTypes.STRING
-    }, 
-    city: {
+    description: {
         type: DataTypes.STRING
     },
-    article: {
-        type: DataTypes.STRING
+    rating: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        defaultValue: 0
     },
     picture: {
         type: DataTypes.STRING
     },
-    video: {
+    video1: {
         type: DataTypes.STRING
     },
-    rating: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0
+    video2: {
+        type: DataTypes.STRING
+    },
+    video3: {
+        type: DataTypes.STRING
     }
 
 });

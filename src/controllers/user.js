@@ -10,7 +10,8 @@ module.exports = {
 
     getUser: async (req, res) => {
         try {
-            const user = await users.findOne({ where: { email : req.body.email } });
+            const data = jwt.verify(req.body.token, process.env.ACCESS_TOKEN_SECRET);
+            const user = await users.findOne({ where: { email : data.email } });
             if (user === null) throw "User not found";
 
             return success(res, 200, true, "User found successfully", user);
@@ -58,7 +59,7 @@ module.exports = {
                 password: hashedPassword
             });
 
-            const token = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET);
+            const token = jwt.sign({ email: user.email }, process.env.ACCESS_TOKEN_SECRET);
 
             return success(res, 200, true, "Password changed successfully", token);
         }

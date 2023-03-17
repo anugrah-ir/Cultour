@@ -35,7 +35,7 @@ module.exports = {
                 isAdmin: false
             });
 
-            const token = jwt.sign({newUser}, process.env.ACCESS_TOKEN_SECRET);
+            const token = jwt.sign({ email: newUser.email }, process.env.ACCESS_TOKEN_SECRET);
 
             return success(res, 200, true, "Register Successful", token);
         }
@@ -53,7 +53,7 @@ module.exports = {
 
             if (await bcrypt.compare(req.body.password, user.password) === false) throw "Invalid email or password";
 
-            const token = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET);
+            const token = jwt.sign({ email: user.email }, process.env.ACCESS_TOKEN_SECRET);
 
             return success(res, 200, true, "Login successful", token);
         }
