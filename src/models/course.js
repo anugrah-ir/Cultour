@@ -1,6 +1,7 @@
 const sequelize = require('../config/database');
 const DataTypes = require('sequelize');
 
+// Define the table for courses
 const courses = sequelize.define("courses", {
     
     name: {

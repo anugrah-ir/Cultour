@@ -7,7 +7,7 @@ module.exports = {
     subscribe: async (req, res) => {
         try {
             const data = jwt.verify(req.body.token, process.env.ACCESS_TOKEN_SECRET);
-            const user = await users.findOne({ where: { email : data.email } });
+            const user = await users.findOne({ where: { id: data.id } });
             await user.update({
                 isSubscribed: true
             });

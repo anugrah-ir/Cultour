@@ -1,7 +1,7 @@
 const sequelize = require('../config/database');
 const DataTypes = require('sequelize');
 
-// Define a table for 'user'
+// Define the table for users
 const users = sequelize.define("users", {
     
     username: {
@@ -16,11 +16,6 @@ const users = sequelize.define("users", {
     password: {
         type: DataTypes.STRING,
         allowNull: false
-    },
-    isVerified: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
     },
     isSubscribed: {
         type: DataTypes.BOOLEAN,

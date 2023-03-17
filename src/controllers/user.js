@@ -59,7 +59,7 @@ module.exports = {
                 password: hashedPassword
             });
 
-            const token = jwt.sign({ email: user.email }, process.env.ACCESS_TOKEN_SECRET);
+            const token = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET);
 
             return success(res, 200, true, "Password changed successfully", token);
         }

@@ -9,8 +9,8 @@ const {
 } = require('../controllers/user');
 
 user
-    .get('/get', getUser)
-    .get('/all', getAllUser)
+    .get('/get/', getUser)
+    .get('/get/all', getAllUser)
     .put('/update', updateUser)
     .delete('/delete', deleteUser)
     .delete('/all/delete', deleteAllUser);
