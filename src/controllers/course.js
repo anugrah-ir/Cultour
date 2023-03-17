@@ -15,10 +15,10 @@ module.exports = {
                 city: req.body.city,
                 description: req.body.description,
                 rating: req.body.rating,
-                picture: 'https://1871-2404-8000-1021-57-11c-ea10-d060-efb2.ap.ngrok.io/' + req.files[0].filename.replace(/ /g, '%20'),
-                video1: 'https://1871-2404-8000-1021-57-11c-ea10-d060-efb2.ap.ngrok.io/' + req.files[1].filename.replace(/ /g, '%20'),
-                video2: 'https://1871-2404-8000-1021-57-11c-ea10-d060-efb2.ap.ngrok.io/' + req.files[2].filename.replace(/ /g, '%20'),
-                video3: 'https://1871-2404-8000-1021-57-11c-ea10-d060-efb2.ap.ngrok.io/' + req.files[3].filename.replace(/ /g, '%20')
+                picture: 'https://anugrah.aenzt.tech/' + req.files[0].filename.replace(/ /g, '%20'),
+                video1: 'https://anugrah.aenzt.tech/' + req.files[1].filename.replace(/ /g, '%20'),
+                video2: 'https://anugrah.aenzt.tech/' + req.files[2].filename.replace(/ /g, '%20'),
+                video3: 'https://anugrah.aenzt.tech/' + req.files[3].filename.replace(/ /g, '%20')
             });
 
             return success(res, 200, true, "Course created successfully");
