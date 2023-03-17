@@ -8,7 +8,10 @@ module.exports = {
     createCourse: async (req, res) => {
         try {
             if (!req.files || req.files.length === 0) throw "No files uploaded";
-            
+            upload.on('error', (err) => {
+                return error(res, 400, false, err);
+            });
+
             const course = await courses.findOne({ where: { name : req.body.name } });
             if (course !== null) throw "Course already exist";
 
