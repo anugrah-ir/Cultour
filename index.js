@@ -16,7 +16,7 @@ app.use(express.static('uploads'));
 app.use('/', routes);
 
 // Synchronize database every re-deploy
-sequelize.sync({ force: true });
+sequelize.sync({ alter: true });
 
 app.listen(port);
 console.log('Server Listening on Port', port);

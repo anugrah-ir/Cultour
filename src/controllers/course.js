@@ -11,8 +11,6 @@ module.exports = {
             await courses.create({
                 name: req.body.name,
                 category: req.body.category,
-                province: req.body.province, 
-                city: req.body.city,
                 description: req.body.description,
                 rating: req.body.rating,
                 picture: 'https://anugrah.aenzt.tech/' + req.files[0].filename.replace(/ /g, '%20'),
