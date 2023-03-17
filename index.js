@@ -6,19 +6,17 @@ const bodyParser = require('body-parser');
 const port = process.env.PORT;
 const app = express();
 
-const cors = require('cors');
-app.use(cors());
-
-app.use(express.static('uploads'));
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Synchronize database every re-deploy
-sequelize.sync({ alter: true });
+// Serve static files in "/uploads" folder
+app.use(express.static('uploads'));
 
 // API route
 app.use('/', routes);
 
+// Synchronize database every re-deploy
+sequelize.sync({ force: true });
+
 app.listen(port);
-console.log('Server Running...');
+console.log('Server Listening on Port', port);
