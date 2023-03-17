@@ -15,10 +15,10 @@ module.exports = {
                 category: req.body.category,
                 description: req.body.description,
                 rating: req.body.rating,
-                picture: 'https://anugrah.aenzt.tech/' + req.files[0].filename.replace(/ /g, '%20'),
-                video1: 'https://anugrah.aenzt.tech/' + req.files[1].filename.replace(/ /g, '%20'),
-                video2: 'https://anugrah.aenzt.tech/' + req.files[2].filename.replace(/ /g, '%20'),
-                video3: 'https://anugrah.aenzt.tech/' + req.files[3].filename.replace(/ /g, '%20')
+                picture: req.body.picture,
+                video1: req.body.video1,
+                video2: req.body.video2,
+                video3: req.body.video3
             });
 
             return success(res, 200, true, "Course created successfully");

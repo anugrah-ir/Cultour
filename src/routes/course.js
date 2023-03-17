@@ -9,10 +9,8 @@ const {
     deleteCourse,
     deleteAllCourse
 } = require('../controllers/course');
-const upload = require('../middleware/uploader');
-
 course
-    .post('/create', upload.array('file'), createCourse)
+    .post('/create', createCourse)
     .get('/get/id/:id', getCourse)
     .get('/get/category/:category', getCourseByCategory)
     .get('/get/all', getAllCourse)
