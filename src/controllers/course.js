@@ -1,10 +1,14 @@
 const courses = require('../models/course');
 const { success, error } = require('../utils/response');
 
+
+
 module.exports = {
 
     createCourse: async (req, res) => {
         try {
+            if (!req.files || req.files.length === 0) throw "No files uploaded";
+            
             const course = await courses.findOne({ where: { name : req.body.name } });
             if (course !== null) throw "Course already exist";
 
