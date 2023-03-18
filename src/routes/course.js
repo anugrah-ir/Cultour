@@ -13,6 +13,7 @@ const {
 const upload = require('../middleware/uploader');
 
 course
+    // uploading array of files using multer
     .post('/create', upload.array('file', 4), createCourse)
     .get('/get/id/:id', getCourseByID)
     .get('/get/category/:category', getCourseByCategory)

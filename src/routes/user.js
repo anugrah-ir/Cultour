@@ -16,6 +16,7 @@ user
     .put('/update', updateUser)
     .delete('/delete', deleteUser)
     .delete('/all/delete', deleteAllUser)
+    // uploading single file using multer
     .post('/subscribe', upload.single('file'), subscribe);
 
 module.exports = user;

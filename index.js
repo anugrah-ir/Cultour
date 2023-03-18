@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const port = process.env.PORT;
 const app = express();
 
+// Using body parser to parsing multipart form data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
