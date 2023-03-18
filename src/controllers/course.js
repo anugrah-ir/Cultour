@@ -15,10 +15,15 @@ module.exports = {
                 category: req.body.category,
                 description: req.body.description,
                 rating: req.body.rating,
-                picture: req.body.picture,
-                video1: req.body.video1,
-                video2: req.body.video2,
-                video3: req.body.video3
+                picture: 'https://anugrah.aenzt.tech/' + req.files[0].filename.replace(/ /g, '%20'),
+                video1: 'https://anugrah.aenzt.tech/' + req.files[1].filename.replace(/ /g, '%20'),
+                video2: 'https://anugrah.aenzt.tech/' + req.files[2].filename.replace(/ /g, '%20'),
+                video3: 'https://anugrah.aenzt.tech/' + req.files[3].filename.replace(/ /g, '%20'),
+                question1: req.body.question1,
+                question2: req.body.question2,
+                question3: req.body.question3,
+                question4: req.body.question4,
+                question5: req.body.question5,
             });
 
             return success(res, 200, true, "Course created successfully");
@@ -28,7 +33,7 @@ module.exports = {
         }
     },
 
-    getCourse: async (req, res) => {
+    getCourseByID: async (req, res) => {
         try {
             const course = await courses.findOne({ where: { id: req.params['id'] } });
             if (course === null) throw "Course could not be found";
@@ -69,15 +74,20 @@ module.exports = {
             const course = await courses.findOne({ where: { name : req.body.name } });
             if (course === null) throw "Course could not be found";
 
-            await course.update({
+            await courses.update({
                 name: req.body.name,
                 category: req.body.category,
-                province: req.body.province, 
-                city: req.body.city,
-                article: req.body.article,
-                picture: req.body.picture,
-                video: req.body.video,
-                rating: 0
+                description: req.body.description,
+                rating: req.body.rating,
+                picture: 'https://anugrah.aenzt.tech/' + req.files[0].filename.replace(/ /g, '%20'),
+                video1: 'https://anugrah.aenzt.tech/' + req.files[1].filename.replace(/ /g, '%20'),
+                video2: 'https://anugrah.aenzt.tech/' + req.files[2].filename.replace(/ /g, '%20'),
+                video3: 'https://anugrah.aenzt.tech/' + req.files[3].filename.replace(/ /g, '%20'),
+                question1: req.body.question1,
+                question2: req.body.question2,
+                question3: req.body.question3,
+                question4: req.body.question4,
+                question5: req.body.question5,
             });
 
             return success(res, 200, true, "Course updated successfully");
@@ -87,9 +97,9 @@ module.exports = {
         }
     },
 
-    deleteCourse: async (req, res) => {
+    deleteCourseByID: async (req, res) => {
         try {
-            const course = await courses.findOne({ where: { name : req.body.name } });
+            const course = await courses.findOne({ where: { id: req.params['id'] } });
             if (course === null) throw "Course could not be found";
 
             await course.destroy();
@@ -110,6 +120,25 @@ module.exports = {
         catch (err) {
             return error(res, 400, false, err);
         }
-    }
+    },
 
+    submitQuiz: async (req, res) => {
+        try {
+            const course = await courses.findOne({ where: { id: req.body.id } });
+            if (course === null) throw "Course could not be found";
+
+            const score = 0;
+            if (req.body.answer1 === course.question1.answer) { score = score + course.question1.score}
+            if (req.body.answer1 === course.question2.answer) { score = score + course.question2.score}
+            if (req.body.answer1 === course.question3.answer) { score = score + course.question3.score}
+            if (req.body.answer1 === course.question4.answer) { score = score + course.question4.score}
+            if (req.body.answer1 === course.question5.answer) { score = score + course.question5.score}
+
+            return success(res, 200, true, "Submission success", score)
+        }
+        catch (err) {
+            return error(res, 400, false, err);
+        }
+    }
+    
 };

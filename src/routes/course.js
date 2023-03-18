@@ -2,22 +2,24 @@ const express = require('express');
 const course = express.Router();
 const {
     createCourse,
-    getCourse,
+    getCourseByID,
     getCourseByCategory,
     getAllCourse,
     updateCourse,
-    deleteCourse,
-    deleteAllCourse
+    deleteCourseByID,
+    deleteAllCourse,
+    submitQuiz
 } = require('../controllers/course');
 const upload = require('../middleware/uploader');
 
 course
-    .post('/create', upload.none(), createCourse)
-    .get('/get/id/:id', getCourse)
+    .post('/create', upload.array('file', 4), createCourse)
+    .get('/get/id/:id', getCourseByID)
     .get('/get/category/:category', getCourseByCategory)
     .get('/get/all', getAllCourse)
-    .put('/update', updateCourse)
-    .delete('/delete', deleteCourse)
-    .delete('/delete/all', deleteAllCourse);
+    .put('/update', upload.array('file', 4), updateCourse)
+    .delete('/delete/id/:id', deleteCourseByID)
+    .delete('/delete/all', deleteAllCourse)
+    .post('/quiz/submit', submitQuiz);
 
 module.exports = course;

@@ -31,6 +31,26 @@ const courses = sequelize.define("courses", {
     },
     video3: {
         type: DataTypes.STRING
+    },
+    question1: {
+        type: DataTypes.JSON,
+        allowNull: false
+    },
+    question2: {
+        type: DataTypes.JSON,
+        allowNull: false
+    },
+    question3: {
+        type: DataTypes.JSON,
+        allowNull: false
+    },
+    question4: {
+        type: DataTypes.JSON,
+        allowNull: false
+    },
+    question5: {
+        type: DataTypes.JSON,
+        allowNull: false
     }
 
 });
