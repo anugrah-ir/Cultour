@@ -5,14 +5,17 @@ const {
     getAllUser,
     updateUser,
     deleteUser,
-    deleteAllUser
+    deleteAllUser,
+    subscribe
 } = require('../controllers/user');
+const upload = require('../middleware/uploader');
 
 user
     .get('/get/', getUser)
     .get('/get/all', getAllUser)
     .put('/update', updateUser)
     .delete('/delete', deleteUser)
-    .delete('/all/delete', deleteAllUser);
+    .delete('/all/delete', deleteAllUser)
+    .post('/subscribe', upload.single('file'), subscribe);
 
 module.exports = user;

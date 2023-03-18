@@ -5,12 +5,15 @@ const passwordValidator = require('password-validator');
 const jwt = require("jsonwebtoken");
 const users = require('../models/user');
 const { success, error } = require('../utils/response');
+const payments = require('../models/payment');
 
 module.exports = {
 
     getUser: async (req, res) => {
         try {
-            const data = jwt.verify(req.body.token, process.env.ACCESS_TOKEN_SECRET);
+            const authHeader = req.headers['authorization']
+            const token = authHeader && authHeader.split(' ')[1]
+            const data = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
             const user = await users.findOne({ where: { email : data.email } });
             if (user === null) throw "User not found";
 
@@ -91,6 +94,26 @@ module.exports = {
             await users.sync({ force: true });
 
             return success(res, 200, true, "All user has been deleted");
+        }
+        catch (err) {
+            return error(res, 400, false, err);
+        }
+    },
+
+    subscribe: async (req, res) => {
+        try {
+            const authHeader = req.headers['authorization']
+            const token = authHeader && authHeader.split(' ')[1]
+            const data = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+            const user = await users.findOne({ where: { id: data.id } });
+            if (user === null) throw "Could not find user";
+
+            await payments.create({
+                userId: user.id,
+                paymentProof: 'https://anugrah.aenzt.tech/' + req.file.filename.replace(/ /g, '%20') 
+            });
+
+            return success(res, 400, true, "Subscription request acccepted, please wait for admin's approval");
         }
         catch (err) {
             return error(res, 400, false, err);

@@ -1,0 +1,18 @@
+const sequelize = require('../config/database');
+const DataTypes = require('sequelize');
+
+// Define the table for users
+const payments = sequelize.define("payments", {
+    
+    userID: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    paymentProof: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+        
+});
+
+module.exports = payments;
