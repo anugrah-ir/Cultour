@@ -11,8 +11,8 @@ const {
 admin
     .post('/add', addAdmin)
     .get('/get/all', getAllAdmin)
-    .delete('/delete', removeAdmin)
-    .get('/payment/get', getPayment)
-    .post('/payment/approve', approvePayment);
+    .delete('/remove', removeAdmin)
+    .get('/payment/get/:id', getPayment)
+    .post('/payment/approve/:id', approvePayment);
 
 module.exports = admin;

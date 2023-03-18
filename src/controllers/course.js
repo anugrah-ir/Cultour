@@ -1,5 +1,5 @@
 const courses = require('../models/course');
-const { success, error } = require('../utils/response');
+const { success, error } = require('../handler/response');
 
 
 

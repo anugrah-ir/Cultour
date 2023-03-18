@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const emailValidator = require('email-validator');
 const passwordValidator = require('password-validator');
 const users = require('../models/user');
-const { success, error } = require('../utils/response');
+const { success, error } = require('../handler/response');
 
 module.exports = {
 
@@ -34,7 +34,7 @@ module.exports = {
                 isSubscribed: false, 
                 isAdmin: false
             });
-            const token = jwt.sign({ id: newUser.id }, process.env.ACCESS_TOKEN_SECRET);
+            const token = jwt.sign({ id: newUser.id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3600s' });
 
             return success(res, 200, true, "Register Successful", token);
         }
@@ -52,7 +52,7 @@ module.exports = {
 
             if (await bcrypt.compare(req.body.password, user.password) === false) throw "Invalid email or password";
 
-            const token = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET);
+            const token = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3600s' });
 
             return success(res, 200, true, "Login successful", token);
         }

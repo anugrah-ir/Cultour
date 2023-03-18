@@ -4,8 +4,8 @@ const emailValidator = require('email-validator');
 const passwordValidator = require('password-validator');
 const jwt = require("jsonwebtoken");
 const users = require('../models/user');
-const { success, error } = require('../utils/response');
 const payments = require('../models/payment');
+const { success, error } = require('../handler/response');
 
 module.exports = {
 
@@ -62,7 +62,7 @@ module.exports = {
                 password: hashedPassword
             });
 
-            const token = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET);
+            const token = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3600s' });
 
             return success(res, 200, true, "Password changed successfully", token);
         }
